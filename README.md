@@ -37,7 +37,13 @@ MIT License
 ```
 pip install selenium
 pip install webdriver-manager
+pip install python-dotenv
 ```
+
+## 要件
+
+* Mozilla Firefox version 114
+* Python 3.11(Python 3.7前後以降で動くはずですがテストはしていません。)
 
 ## システム概要
 
