@@ -293,7 +293,6 @@ driver.switch_to.window(original_window)
 todo_homework = count_task()
 while True:
     if todo_homework["active_homework"] != 0:  # 配信中の宿題の数が0でないとき
-        global driver
         print("Processing= active_homework")
         driver.get(studysapuri_uri_dict["homework_active"])  # ページ移動
         first_taskwork_open()
