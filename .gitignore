@@ -1,3 +1,5 @@
 .env
 secret/**/*
 **/**/*.log
+build/**/*
+dist/**/*
