@@ -34,10 +34,23 @@ MIT License
 
 ## 下準備
 
+### モジュールインストール
+
 ```
 pip install selenium
 pip install webdriver-manager
 pip install python-dotenv
+```
+
+### .env ファイルの作成
+
+カレントディレクトリに .env を作成する必要があります。
+内容は以下の通り。
+
+``` .env
+LOGIN_URL="https://learn.studysapuri.jp/ja/login"
+EMAIL_ADDRESS=<Your address>
+PASSWORD=<Your password>
 ```
 
 ## 要件
