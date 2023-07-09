@@ -1,0 +1,1 @@
+document.querySelector(`span[class*=isIncomplete]`).click();
