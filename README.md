@@ -9,6 +9,36 @@
 * Win10 Home
 * [Google Chrome](https://www.google.com/intl/ja_jp/chrome/) / [Mozilla Firefox](https://www.mozilla.org/ja-jp/firefox/new/)
 
+## 簡易アプリケーション
+
+ブックマークウォレットして コードを公開します。
+ブックマークに 分かりやすい名前を付けてリンク先に以下のコードを記述します。
+
+すべての選択肢をランダムに選ぶ
+
+```javascript
+javascript:Array.from(document.querySelectorAll(`button[class^="QuizDropdown"]`)).sort((a,b)=>Math.random()-Math.random()).forEach(el=>el.click());document.querySelector(`button[class^="RaisedButton"]`).click();
+```
+
+### ブックマークウォレットに関わる問題FAQ
+
+#### Q.確かにコピーしましたが張り付けることができません
+
+A.リンク先に最初`//`を入力した後に貼り付けます。これは、Webブラウザセキュリティによるものと考えられます。
+
+#### Q.ブックマークバーが表示されない
+
+##### A1-解決策1(ショートカットキー)
+
+`Ctrl` + `Shift` + `B` を同時に押し表示させます。
+
+##### A2-解決策2(ブラウザの設定から)
+
+* Google chrome をお使いの場合 [Google chromeの設定画面 chrome://settings/appearance](chrome://settings/appearance) から [ブックマーク バーを表示する] のトグルスイッチを ON にします。
+* Microsoft edge をお使いの場合 [Microsoft edgeの設定画面 edge://settings/appearance](edge://settings/appearance#:~:text=%E7%A7%BB%E5%8B%95%E3%81%97%E3%81%BE%E3%81%99-,%E3%83%84%E3%83%BC%E3%83%AB%20%E3%83%90%E3%83%BC%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA,-%E3%82%BF%E3%83%96%E6%93%8D%E4%BD%9C%E3%83%A1%E3%83%8B%E3%83%A5%E3%83%BC)下部にある [お気に入りバーの表示] を [常に表示] に切り替えます。
+* Brave をお使いの場合 [Brave の設定画面 brave://settings/appearance](brave://settings/appearance) の [ブックマーク バーを表示する] を [常に表示] に切り替えます。
+* Firefox及びWaterfox,Tor browser,LibreWolf など派生ブラウザをお使いの場合 [firefoxのヘルプ](https://support.mozilla.org/ja/kb/bookmarks-toolbar-display-favorite-websites#w_butsukumakutsurubawobiao-shi-matahafei-biao-shi-nisuru)を参考にしてください。
+
 ### 余裕があれば実装する環境
 
 * [Brave](https://brave.com/ja/)
@@ -52,7 +82,7 @@ MIT License
 
 ### モジュールインストール
 
-```
+```shell
 pip install selenium
 pip install webdriver-manager
 pip install python-dotenv
@@ -63,7 +93,7 @@ pip install python-dotenv
 カレントディレクトリに .env を作成する必要があります。
 内容は以下の通り。
 
-``` .env
+```plantext
 LOGIN_URL="https://learn.studysapuri.jp/ja/login"
 EMAIL_ADDRESS=<Your address>
 PASSWORD=<Your password>
