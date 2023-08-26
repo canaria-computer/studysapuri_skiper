@@ -78,6 +78,25 @@ MIT License
 
     ソフトウェアは「現状のまま」で、明示であるか暗黙であるかを問わず、何らの保証もなく提供されます。ここでいう保証とは、商品性、特定の目的への適合性、および権利非侵害についての保証も含みますが、それに限定されるものではありません。 作者または著作権者は、契約行為、不法行為、またはそれ以外であろうと、ソフトウェアに起因または関連し、あるいはソフトウェアの使用またはその他の扱いによって生じる一切の請求、損害、その他の義務について何らの責任も負わないものとします。
 
+## 何らかの原因で通信不良なネットワークを利用していますか?
+
+つくば大学の [VPN Gate](https://www.vpngate.net/ja/about_abuse.aspx) を検討してください。
+
+## Opera Portable による実行
+
+[Opera ポータブル版](https://www.opera.com/ja/computer/thanks?ni=stable_portable&os=windows) を検討してください。
+
+### 設定
+
+[envファイル](#env-ファイルの作成) に加えて次を書き足します。
+
+[Web Driver](https://github.com/operasoftware/operachromiumdriver/releases) を適切にダウンロードして設定します。
+
+```.env
+OPERA=enable
+OPERA_AAP_PATH=" operaのファイルパス "
+```
+
 ## 下準備
 
 ### モジュールインストール

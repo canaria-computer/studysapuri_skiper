@@ -1,1 +1,1 @@
-document.querySelector(`span[class*=isIncomplete]`).click();
+document.querySelector(`span[class*=isIncomplete],span[class*=isInProgress]`).click();
