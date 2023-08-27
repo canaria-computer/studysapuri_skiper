@@ -26,7 +26,7 @@
         "newline-after-var": "error",
         "no-cond-assign": "error",
         "no-const-assign": "error",
-        "no-constant-condition": "error",
+        "no-constant-condition": "off",
         "no-dupe-args": "error",
         "no-dupe-class-members": "error",
         "no-duplicate-case": "error",
@@ -72,7 +72,6 @@
             "double"
         ],
         "require-await": "warn",
-        "require-jsdoc": "warn",
         "semi": "warn",
         "sort-vars": "warn",
         "use-isnan": "error",
