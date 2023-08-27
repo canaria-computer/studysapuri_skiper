@@ -112,10 +112,13 @@ pip install python-dotenv
 カレントディレクトリに .env を作成する必要があります。
 内容は以下の通り。
 
+EXAMS_SKIP は デフォルト値で true であり明示的に false へセットしない限り1度しか提出できない問題を回避します。
+
 ```plantext
 LOGIN_URL="https://learn.studysapuri.jp/ja/login"
 EMAIL_ADDRESS=<Your address>
 PASSWORD=<Your password>
+EXAMS_SKIP=< true | false >
 ```
 
 ## 要件
