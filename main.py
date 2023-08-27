@@ -2,17 +2,18 @@
 # # スタサプRPA
 
 # %%
-# selenium 4
-from dotenv import load_dotenv
-from selenium.webdriver.common.by import By
+
+import os
 import random as rd
 import time
-import os
+
+# selenium 4
+from dotenv import load_dotenv
 from selenium import webdriver
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support.wait import TimeoutException
-from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import TimeoutException, WebDriverWait
 from webdriver_manager.firefox import GeckoDriverManager
 
 os.environ["WDM_SSL_VERIFY"] = "0"
@@ -153,7 +154,8 @@ class StudysapuriSkip:
 
     def first_taskwork_open(self):
         WebDriverWait(self.driver, timeout=self.timeout * 2).until(
-            lambda d: d.find_element(By.CSS_SELECTOR, 'button[class*="TodoCard"]')
+            lambda d: d.find_element(
+                By.CSS_SELECTOR, 'button[class*="TodoCard"]')
         )
         self.first_taskwork = self.driver.find_element(
             By.CSS_SELECTOR, value='button[class*="TodoCard"]'
@@ -208,7 +210,8 @@ class StudysapuriSkip:
 
         WebDriverWait(self.driver, timeout=100).until(
             expected_conditions.presence_of_element_located(
-                (By.CSS_SELECTOR, "span[class*=isIncomplete],span[class*=isInProgress]")
+                (By.CSS_SELECTOR,
+                 "span[class*=isIncomplete],span[class*=isInProgress]")
             )
         )
 
