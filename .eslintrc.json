@@ -1,0 +1,92 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "prettier"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "array-callback-return": "error",
+        "arrow-body-style": "error",
+        "arrow-spacing": "error",
+        "block-scoped-var": "warn",
+        "consistent-return": "error",
+        "constructor-super": "error",
+        "curly": "warn",
+        "init-declarations": "error",
+        "max-nested-callbacks": "error",
+        "max-statements-per-line": "error",
+        "new-cap": "error",
+        "newline-after-var": "error",
+        "no-cond-assign": "error",
+        "no-const-assign": "error",
+        "no-constant-condition": "error",
+        "no-dupe-args": "error",
+        "no-dupe-class-members": "error",
+        "no-duplicate-case": "error",
+        "no-duplicate-imports": "error",
+        "no-empty": "error",
+        "no-empty-function": "error",
+        "no-eq-null": "error",
+        "no-eval": "error",
+        "no-floating-decimal": "error",
+        "no-invalid-regexp": "error",
+        "no-mixed-spaces-and-tabs": "error",
+        "no-negated-condition": "error",
+        "no-nested-ternary": "error",
+        "no-octal": "error",
+        "no-octal-escape": "error",
+        "no-return-assign": "error",
+        "no-return-await": "error",
+        "no-script-url": "error",
+        "no-self-assign": "error",
+        "no-self-compare": "error",
+        "no-sequences": "error",
+        "no-shadow": "error",
+        "no-shadow-restricted-names": "error",
+        "no-throw-literal": "error",
+        "no-trailing-spaces": "error",
+        "no-undef": "error",
+        "no-undef-init": "error",
+        "no-undefined": "error",
+        "no-unneeded-ternary": "error",
+        "no-unreachable": "error",
+        "no-unused-vars": "warn",
+        "no-useless-computed-key": "error",
+        "no-useless-constructor": "error",
+        "no-useless-escape": "error",
+        "no-useless-return": "error",
+        "no-var": "error",
+        "one-var-declaration-per-line": "error",
+        "prefer-arrow-callback": "error",
+        "prefer-const": "warn",
+        "prefer-template": "error",
+        "quotes": [
+            "error",
+            "double"
+        ],
+        "require-await": "warn",
+        "require-jsdoc": "warn",
+        "semi": "warn",
+        "sort-vars": "warn",
+        "use-isnan": "error",
+        "valid-typeof": "error",
+        // 不要なカッコは消す
+        "no-extra-parens": 1,
+        // 無駄なスペースは削除
+        "no-multi-spaces": 2,
+        // 不要な空白行は削除。
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 5
+            }
+        ]
+    }
+}
