@@ -1,3 +1,5 @@
+const todoAnouTitleSel = "p[class*=TodoAnnouncement__Description]>strong[class*=TodoAnnouncement__Title]";
+
 function getFirstTodoCard() {
   return document.querySelector("button[class*=TodoCard]");
 }
@@ -15,17 +17,12 @@ function findAncestorWithSelector(element, selector) {
   return null;
 }
 
-function main() {
-  const todoTitleElement = document.querySelector(
-    "p[class*=TodoAnnouncement__Description]>strong[class*=TodoAnnouncement__Title]",
-  );
+function examTrim() {
+  const todoTitleElement = document.querySelector(todoAnouTitleSel);
   const firstTodoCard = getFirstTodoCard();
 
   if (todoTitleElement.textContent === "確認テスト") {
-    const todoCardContainer = findAncestorWithSelector(
-      todoTitleElement,
-      "button[class*=TodoCard]+div",
-    );
+    const todoCardContainer = findAncestorWithSelector(todoTitleElement, "button[class*=TodoCard]+div");
 
     if (todoCardContainer) {
       todoCardContainer.remove();
@@ -36,5 +33,13 @@ function main() {
   firstTodoCard.click();
 }
 
+function main() {
+  for (let i = 0; i < document.querySelectorAll(todoAnouTitleSel).length; i++) {
+    examTrim();
+  }
+  if (document.querySelectorAll("div[class*=isSelected]").length <= 0) {
+    getFirstTodoCard().click();
+  }
+}
+
 main();
-// TODO いい感じに繰り返す
