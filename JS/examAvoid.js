@@ -42,4 +42,4 @@ function main() {
   }
 }
 
-main();
+setTimeout(main(), 1);
