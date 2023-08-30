@@ -2,7 +2,7 @@
 # # スタサプRPA
 
 # %%
-
+# selenium 4
 import os
 import random as rd
 import time
@@ -48,6 +48,9 @@ class StudysapuriSkip:
             "homework_expired": "https://learn.studysapuri.jp/ja/todos/expired",
         }
 
+        self.exams_skip = True
+        self.load_exams_skip_config()
+
         self.load_timeout_config()
         if continue_login:
             try:
@@ -62,6 +65,7 @@ class StudysapuriSkip:
         self.__tab = []
 
     def load_timeout_config(self) -> None:
+        """タイムアウト時間設定"""
         self.timeout = os.getenv("TIMEOUT_SEC")
         if self.timeout == None:
             self.timeout = 20
@@ -69,6 +73,7 @@ class StudysapuriSkip:
             self.timeout = float(self.timeout)
 
     def load_credential(self) -> None:
+        """ログイン情報を読み込む"""
         self.service_url = os.getenv("LOGIN_URL")
         self.__email = os.getenv("EMAIL_ADDRESS")
         self.__password = os.getenv("PASSWORD")
@@ -82,10 +87,27 @@ class StudysapuriSkip:
             print("Your PASSWORD is None.")
             self.__password = input("Please input password:")
 
+    def load_exams_skip_config(self):
+        """確認問題(1度しかできない)をスキップするかの設定を読み込む"""
+        load_config = os.getenv("EXAMS_SKIP")
+        if load_config == None:
+            return
+        self.exams_skip = bool(load_config)
+
     def release_credential(self):
+        """ログイン情報を変数から解放する"""
         self.__email = self.__password = None
 
     def login(self, count=0):
+        """ログインする
+
+        Args:
+            count (int, optional): 試行回数. Defaults to 0.
+
+        Note:
+            これはログインに失敗したとき再帰的に繰り返します.
+            ただし2回のみです.
+        """
         self.driver.get(self.service_url)
         self.username_input_element = self.driver.find_element(
             by=By.XPATH, value='//*[@id="root"]/div/div/div/form/div/div[2]/input'
@@ -109,7 +131,12 @@ class StudysapuriSkip:
             print("Retry...", count)
             self.login(count + 1)
 
-    def count_task(self):
+    def count_task(self) -> dict:
+        """宿題の数を数える
+
+        Returns:
+            dict: { active_homework : int, expired_homework : int }
+        """
         self.driver.get(self._studysapuri_uri_dict["homework_active"])
         WebDriverWait(self.driver, timeout=self.timeout).until(
             lambda d: d.find_elements(
@@ -152,75 +179,56 @@ class StudysapuriSkip:
             "expired_homework": len(self.is_expired_homework_empty),
         }
 
-    def first_taskwork_open(self):
-        WebDriverWait(self.driver, timeout=self.timeout * 2).until(
-            lambda d: d.find_element(
-                By.CSS_SELECTOR, 'button[class*="TodoCard"]')
-        )
-        self.first_taskwork = self.driver.find_element(
-            By.CSS_SELECTOR, value='button[class*="TodoCard"]'
-        )
-        self.first_taskwork.click()
-
-        WebDriverWait(self.driver, timeout=self.timeout * 5).until(
-            expected_conditions.presence_of_all_elements_located(
-                (By.CSS_SELECTOR, "span[class*=isIncomplete]")
-            )
-        )
-
-        self.first_todo = self.driver.find_element(
-            By.CSS_SELECTOR, value="span[class*=isIncomplete]"
-        )
-        f = open("JS/incompleteClick.js", "r")
-        try:
-            self.driver.execute_script(f.read())
-        except:
-            print("An error has occurred.")
-        finally:
-            f.close()
-            print("file resource released.")
-
     def process_todo(self):
+        """宿題を1件ずつ呼び出し処理する"""
         while len(self.is_active_homework_empty) > 0:
             self.driver.get(self._studysapuri_uri_dict["homework_active"])
             self.first_taskwork_open()
             self.lesson_automation()
             self.count_task()
+            self.sub_tab_all_close()
         while len(self.is_expired_homework_empty) > 0:
             self.driver.get(self._studysapuri_uri_dict["homework_expired"])
             self.lesson_automation()
             self.count_task()
-        print("\033[31m Task completed.\033[31m")
+            self.sub_tab_all_close()
+        print("Task completed.")
 
     def sub_tab_all_close(self) -> None:
+        """すべてのタブを開く"""
         for t in self.__tab:
             self.driver.switch_to.window(t)
             self.driver.close()
 
     def first_taskwork_open(self):
-        WebDriverWait(self.driver, timeout=self.timeout).until(
-            lambda d: d.find_element(
-                by=By.CSS_SELECTOR, value='button[class*="TodoCard"]'
+        """宿題を開く"""
+        WebDriverWait(self.driver, self.timeout*5).until(
+            expected_conditions.presence_of_element_located(
+                (By.CSS_SELECTOR, "[class*=BasicTemplate__Main]")
             )
         )
-        first_taskwork = self.driver.find_element(
-            by=By.CSS_SELECTOR, value='button[class*="TodoCard"]'
-        )
-        first_taskwork.click()
-
-        WebDriverWait(self.driver, timeout=100).until(
+        time.sleep(5)
+        with open("JS/examAvoid.js", "r", encoding="UTF-8") as f:
+            try:
+                self.driver.execute_script(f.read())
+            except:
+                print("Err?")
+            time.sleep(0.1)
+        print("wait...")
+        WebDriverWait(self.driver, self.timeout*5).until(
             expected_conditions.presence_of_element_located(
                 (By.CSS_SELECTOR,
                  "span[class*=isIncomplete],span[class*=isInProgress]")
             )
         )
 
-        f = open("JS/incompleteClick.js", "r")
+        f = open("JS/incompleteClick.js", "r", encoding="UTF-8")
         self.driver.execute_script(f.read())
         f.close()
         print("first_taskwork_open fin")
 
     def video_automation(self):
+        """動画を自動化する"""
         # video wait
         WebDriverWait(self.driver, timeout=4).until(
             lambda d: d.find_element(by=By.TAG_NAME, value="video")
@@ -233,11 +241,19 @@ class StudysapuriSkip:
         f = open("JS/videoAutomation.js", "r", encoding="UTF-8")
         command_list = f.readlines()
         for comand in command_list:
-            self.driver.execute_script(comand)
+            try:
+                self.driver.execute_script(comand)
+            except:
+                pass
         f.close()
         time.sleep(1)
 
     def lesson_automation(self):
+        if "exams" in self.driver.current_url.split("/") and self.exams_skip:
+            return
+
+        """宿題を捌く
+        """
         # 要素を探す
         WebDriverWait(self.driver, timeout=20).until(
             lambda d: d.find_element(
@@ -246,7 +262,18 @@ class StudysapuriSkip:
             )
         )
 
-        after_second_lesston_list = map(
+        after_second_lesston_list = []
+        for element in self.driver.find_elements(
+            By.CSS_SELECTOR, 'ul[class*="LessonStepList"] > li > a'
+        ):
+            if (
+                len(element.find_elements(
+                    By.CSS_SELECTOR, "span[class*=isIncomplete]"))
+                > 0
+            ):
+                after_second_lesston_list.append(element.get_attribute("href"))
+
+        map(
             lambda element: element.get_attribute("href"),
             self.driver.find_elements(
                 by=By.CSS_SELECTOR,
@@ -268,7 +295,7 @@ class StudysapuriSkip:
         except TimeoutException as err:
             print("Timeout Err", err)
 
-    def quession_automation(self):
+    def quession_automation(self, isExams=False):
         """確認問題のみ自動化する"""
         while True:
             # 要素待ち
@@ -281,6 +308,11 @@ class StudysapuriSkip:
             js_file_autoClick = f.read()
             self.driver.execute_script(js_file_autoClick)
             f.close()
+            if isExams:
+                f = open("JS/examSubmit.js", "r", encoding="UTF-8")
+                time.sleep(2)
+                self.driver.execute_script(f.read())
+                f.close()
             if self.driver.current_url.endswith("result"):
                 # 本当に終了したか判定
                 checke_target_button = self.driver.find_elements(
@@ -293,14 +325,20 @@ class StudysapuriSkip:
                     and checke_target_button[0].text != "次の問題へ"
                 ):
                     break
+            if "lessons" in self.driver.current_url:
+                self.driver.get(self.driver.current_url.replace(
+                    "lessons", "questions"))
             time.sleep(0.05)
+
+    def destroy(self):
+        self.release_credential()
+        print("Credential discarded.")
+        self.driver.quit()
+        self = None
+        return self
 
 
 # %%
 instans = StudysapuriSkip()
-
-# %%
-time.sleep(30)
-instans.driver.quit()
-# instans = StudysapuriSkip()
-# instans.process_todo()
+instans.process_todo()
+instans.destroy()
