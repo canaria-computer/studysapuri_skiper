@@ -33,7 +33,7 @@ load_dotenv()
 class StudysapuriSkip:
     def __init__(self, continue_login=True) -> None:
         self.options = webdriver.FirefoxOptions()
-        # options.add_argument('--headless')
+        self.options.add_argument('--headless')
 
         self.driver = webdriver.Firefox(
             service=FirefoxService(GeckoDriverManager().install()), options=self.options
