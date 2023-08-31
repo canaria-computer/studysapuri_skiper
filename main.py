@@ -32,8 +32,10 @@ load_dotenv()
 
 class StudysapuriSkip:
     def __init__(self, continue_login=True) -> None:
+        print("Initialization...")
         self.options = webdriver.FirefoxOptions()
-        self.options.add_argument('--headless')
+        if (bool(os.getenv("HEADLESS"))):
+            self.options.add_argument('--headless')
 
         self.driver = webdriver.Firefox(
             service=FirefoxService(GeckoDriverManager().install()), options=self.options
@@ -225,7 +227,7 @@ class StudysapuriSkip:
         f = open("JS/incompleteClick.js", "r", encoding="UTF-8")
         self.driver.execute_script(f.read())
         f.close()
-        print("first_taskwork_open fin")
+        print("first_taskwork_open complete.")
 
     def video_automation(self):
         """動画を自動化する"""
@@ -335,10 +337,13 @@ class StudysapuriSkip:
         print("Credential discarded.")
         self.driver.quit()
         self = None
-        return self
 
 
 # %%
 instans = StudysapuriSkip()
-instans.process_todo()
-instans.destroy()
+try:
+    instans.process_todo()
+except KeyboardInterrupt as err:
+    print(err)
+finally:
+    instans.destroy()
