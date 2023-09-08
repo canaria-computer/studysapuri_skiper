@@ -102,9 +102,7 @@ OPERA_AAP_PATH=" operaのファイルパス "
 ### モジュールインストール
 
 ```shell
-pip install selenium
-pip install webdriver-manager
-pip install python-dotenv
+pip install -r requirements.txt
 ```
 
 ### .env ファイルの作成
