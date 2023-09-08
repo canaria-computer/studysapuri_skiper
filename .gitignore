@@ -6,3 +6,4 @@ dist/**/*
 node_modules
 pnpm-lock.yaml
 main.spec
+sumHash.ps1
