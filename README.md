@@ -17,7 +17,7 @@
 すべての選択肢をランダムに選ぶ
 
 ```javascript
-javascript:Array.from(document.querySelectorAll(`button[class^="QuizDropdown"]`)).sort((a,b)=>Math.random()-Math.random()).forEach(el=>el.click());document.querySelector(`button[class^="RaisedButton"]`).click();
+javascript:Array.from(document.querySelectorAll(`button[class^="QuizDropdown"],button[class^=QuizButton]`)).sort((a,b)=>Math.random()-Math.random()).forEach(el=>el.click());
 ```
 
 ### ブックマークウォレットに関わる問題FAQ
